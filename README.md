@@ -5,5 +5,5 @@
 ```sh
   cd vite-project
   npm install
-  npm run dev
+  npm run watch
 ```
