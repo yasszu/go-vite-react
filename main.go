@@ -8,18 +8,20 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
-const (
-	port = 3000
-)
-
 func main() {
-	mux := chi.NewRouter()
-	mux.Use(middleware.Logger)
+	r := chi.NewRouter()
+	r.Use(
+		middleware.Logger,
+		middleware.RealIP,
+		middleware.Recoverer,
+		middleware.RequestID,
+	)
 
-	mux.NotFound(func(w http.ResponseWriter, r *http.Request) {
+	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		render(w, r.URL.Path)
 	})
 
+	port := 3000
 	fmt.Printf("→ http server started on http://localhost:%d/\n\n", port)
-	_ = http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
+	_ = http.ListenAndServe(fmt.Sprintf(":%d", port), r)
 }
