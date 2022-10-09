@@ -29,7 +29,12 @@ func render(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", contentType(r.URL.Path))
 	w.WriteHeader(http.StatusOK)
-	if _, err = io.Copy(w, file); err != nil {
+
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Println(err)
+	}
+	if _, err := w.Write(bytes); err != nil {
 		log.Println(err)
 	}
 }
@@ -45,7 +50,11 @@ func renderHtml(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if _, err = io.Copy(w, file); err != nil {
+	bytes, err := io.ReadAll(file)
+	if err != nil {
+		log.Println(err)
+	}
+	if _, err := w.Write(bytes); err != nil {
 		log.Println(err)
 	}
 }
