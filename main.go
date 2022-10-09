@@ -21,5 +21,5 @@ func main() {
 	})
 
 	fmt.Printf("→ http server started on http://localhost:%d/\n\n", port)
-	http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
+	_ = http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
 }
