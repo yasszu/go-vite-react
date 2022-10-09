@@ -19,6 +19,6 @@ func main() {
 	r.NotFound(fileServer)
 
 	port := 3000
-	fmt.Printf("→ http server started on http://localhost:%d/\n\n", port)
+	fmt.Printf("\n⇨ http://localhost:%d/\n\n", port)
 	_ = http.ListenAndServe(fmt.Sprintf(":%d", port), r)
 }

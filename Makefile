@@ -7,4 +7,4 @@ build:
 	cd vite-project && npm run build
 
 run :
-	go run .
+	@go run .
