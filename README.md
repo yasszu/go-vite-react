@@ -1,4 +1,4 @@
-# vite-react-go
+# go-vite-react
 
 ## Getting Started
 ### Build vite-project

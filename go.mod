@@ -1,4 +1,4 @@
-module github.com/yasszu/vite-react-go
+module github.com/yasszu/go-vite-react
 
 go 1.18
 
