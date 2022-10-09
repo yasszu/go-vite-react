@@ -4,7 +4,7 @@ import (
 	"embed"
 	"errors"
 	"io"
-	"log"
+	"io/fs"
 	"mime"
 	"net/http"
 	"path"
@@ -21,45 +21,58 @@ var (
 )
 
 func fileServer(w http.ResponseWriter, r *http.Request) {
-	render(w, r.URL.Path)
+	render(w, r)
 }
 
-func render(w http.ResponseWriter, file string) {
-	if err := open(w, file); err != nil {
-		if err := open(w, rootFile); err != nil {
-			panic(err)
-		}
+func render(w http.ResponseWriter, r *http.Request) {
+	filePath := r.URL.Path
+	file, err := open(filePath)
+	if err != nil {
+		renderRoot(w, r)
+		return
 	}
+
+	w.Header().Set("Content-Type", contentType(filePath))
+	w.WriteHeader(http.StatusOK)
+	io.Copy(w, file)
+}
+
+func renderRoot(w http.ResponseWriter, r *http.Request) {
+	file, err := open(rootFile)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	io.Copy(w, file)
+}
+
+func contentType(filePath string) string {
+	ct := "application/octet-stream"
+	if mt := mime.TypeByExtension(filepath.Ext(filePath)); mt != "" {
+		ct = mt
+	}
+	return ct
 }
 
 //go:embed vite-project/dist/*
 var dist embed.FS
 
-func open(w http.ResponseWriter, file string) error {
-	f, err := dist.Open(path.Join(rootPath, file))
+func open(fileName string) (fs.File, error) {
+	file, err := dist.Open(path.Join(rootPath, fileName))
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer func() {
-		_ = f.Close()
+		_ = file.Close()
 	}()
 
-	stat, _ := f.Stat()
+	stat, _ := file.Stat()
 	if stat.IsDir() {
-		return ErrNotFilePath
+		return nil, ErrNotFilePath
 	}
 
-	contentType := "application/octet-stream"
-	if mt := mime.TypeByExtension(filepath.Ext(file)); mt != "" {
-		contentType = mt
-	}
-
-	w.Header().Set("Content-Type", contentType)
-	w.WriteHeader(http.StatusOK)
-	if _, err := io.Copy(w, f); err != nil {
-		return err
-	}
-
-	log.Println(file)
-	return nil
+	return file, nil
 }
