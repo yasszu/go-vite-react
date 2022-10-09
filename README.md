@@ -1,9 +1,21 @@
 # go-vite-react
 
 ## Getting Started
-### Build vite-project
+
+Setup npm:
+
 ```sh
-  cd vite-project
-  npm install
-  npm run watch
+make install
+```
+
+Build vite-project:
+
+```sh
+make build
+```
+
+Run server:
+
+```sh
+make build
 ```
