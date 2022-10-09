@@ -8,6 +8,10 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
+const (
+	port = 3000
+)
+
 func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -15,7 +19,6 @@ func main() {
 		w.Write([]byte("welcome"))
 	})
 
-	port := 3000
 	fmt.Printf("→ http server started on http://localhost:%d/\n", port)
 	http.ListenAndServe(fmt.Sprintf(":%d", port), r)
 }
