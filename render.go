@@ -20,6 +20,10 @@ var (
 	ErrNotFilePath = errors.New("not file path")
 )
 
+func fileServer(w http.ResponseWriter, r *http.Request) {
+	render(w, r.URL.Path)
+}
+
 func render(w http.ResponseWriter, file string) {
 	if err := open(w, file); err != nil {
 		if err := open(w, rootFile); err != nil {
