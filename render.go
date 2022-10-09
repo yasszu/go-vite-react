@@ -13,7 +13,7 @@ import (
 
 const (
 	rootPath = "vite-project/dist"
-	rootFile = "index.html"
+	rootFile = "/index.html"
 )
 
 var (
@@ -22,7 +22,6 @@ var (
 
 func render(w http.ResponseWriter, file string) {
 	if err := open(w, file); err != nil {
-		log.Println(err)
 		if err := open(w, rootFile); err != nil {
 			panic(err)
 		}
@@ -56,5 +55,7 @@ func open(w http.ResponseWriter, file string) error {
 	if _, err := io.Copy(w, f); err != nil {
 		return err
 	}
+
+	log.Println(file)
 	return nil
 }
