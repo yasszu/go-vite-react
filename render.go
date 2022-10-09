@@ -15,10 +15,6 @@ const (
 	rootPath = "vite-project/dist"
 )
 
-var (
-	ErrNotFilePath = errors.New("not file path")
-)
-
 func fileServer(w http.ResponseWriter, r *http.Request) {
 	render(w, r)
 }
@@ -58,6 +54,8 @@ func contentType(filePath string) string {
 
 //go:embed vite-project/dist/*
 var dist embed.FS
+
+var ErrNotFilePath = errors.New("not file path")
 
 func open(fileName string) (fs.File, error) {
 	file, err := dist.Open(path.Join(rootPath, fileName))
