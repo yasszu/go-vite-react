@@ -13,12 +13,13 @@ const (
 )
 
 func main() {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
+	mux := chi.NewRouter()
+	mux.Use(middleware.Logger)
+
+	mux.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		render(w, r.URL.Path)
 	})
 
-	fmt.Printf("→ http server started on http://localhost:%d/\n", port)
-	http.ListenAndServe(fmt.Sprintf(":%d", port), r)
+	fmt.Printf("→ http server started on http://localhost:%d/\n\n", port)
+	http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
 }
