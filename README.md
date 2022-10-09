@@ -1,4 +1,4 @@
-# go-vite-react
+# Go + Vite + React.js
 
 ## Getting Started
 
