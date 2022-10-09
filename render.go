@@ -28,7 +28,7 @@ func render(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", contentType(r.URL.Path))
 	w.WriteHeader(http.StatusOK)
-	io.Copy(w, file)
+	_, _ = io.Copy(w, file)
 }
 
 func renderHtml(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +41,7 @@ func renderHtml(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	io.Copy(w, file)
+	_, _ = io.Copy(w, file)
 }
 
 func contentType(filePath string) string {
