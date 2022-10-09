@@ -13,7 +13,6 @@ import (
 
 const (
 	rootPath = "vite-project/dist"
-	rootFile = "/index.html"
 )
 
 var (
@@ -25,20 +24,20 @@ func fileServer(w http.ResponseWriter, r *http.Request) {
 }
 
 func render(w http.ResponseWriter, r *http.Request) {
-	filePath := r.URL.Path
-	file, err := open(filePath)
+	file, err := open(r.URL.Path)
 	if err != nil {
-		renderRoot(w, r)
+		renderHtml(w, r)
 		return
 	}
 
-	w.Header().Set("Content-Type", contentType(filePath))
+	w.Header().Set("Content-Type", contentType(r.URL.Path))
 	w.WriteHeader(http.StatusOK)
 	io.Copy(w, file)
 }
 
-func renderRoot(w http.ResponseWriter, r *http.Request) {
-	file, err := open(rootFile)
+func renderHtml(w http.ResponseWriter, r *http.Request) {
+	filePath := path.Join(r.URL.Path, "index.html")
+	file, err := open(filePath)
 	if err != nil {
 		http.NotFound(w, r)
 		return
