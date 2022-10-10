@@ -14,7 +14,7 @@ const (
 //go:embed vite-project/dist/*
 var dist embed.FS
 
-var ErrNotFoundFile = errors.New("not found file")
+var ErrFileNotFound = errors.New("file not found")
 
 func openFile(fileName string) (fs.File, error) {
 	file, err := dist.Open(path.Join(rootPath, fileName))
@@ -27,7 +27,7 @@ func openFile(fileName string) (fs.File, error) {
 
 	stat, _ := file.Stat()
 	if stat.IsDir() {
-		return nil, ErrNotFoundFile
+		return nil, ErrFileNotFound
 	}
 
 	return file, nil
