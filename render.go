@@ -18,14 +18,7 @@ func serveFile(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", contentType(r.URL.Path))
 	w.WriteHeader(http.StatusOK)
-
-	bytes, err := io.ReadAll(file)
-	if err != nil {
-		log.Println(err)
-	}
-	if _, err := w.Write(bytes); err != nil {
-		log.Println(err)
-	}
+	write(w, file)
 }
 
 func renderHtml(w http.ResponseWriter, r *http.Request) {
@@ -39,6 +32,10 @@ func renderHtml(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
+	write(w, file)
+}
+
+func write(w http.ResponseWriter, file io.Reader) {
 	bytes, err := io.ReadAll(file)
 	if err != nil {
 		log.Println(err)
