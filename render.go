@@ -1,24 +1,13 @@
 package main
 
 import (
-	"embed"
-	"errors"
 	"io"
-	"io/fs"
 	"log"
 	"mime"
 	"net/http"
 	"path"
 	"path/filepath"
 )
-
-const (
-	rootPath = "vite-project/dist"
-)
-
-func fileServer(w http.ResponseWriter, r *http.Request) {
-	render(w, r)
-}
 
 func render(w http.ResponseWriter, r *http.Request) {
 	file, err := openFile(r.URL.Path)
@@ -65,26 +54,4 @@ func contentType(filePath string) string {
 		ct = mt
 	}
 	return ct
-}
-
-//go:embed vite-project/dist/*
-var dist embed.FS
-
-var ErrNotFile = errors.New("err: not file")
-
-func openFile(fileName string) (fs.File, error) {
-	file, err := dist.Open(path.Join(rootPath, fileName))
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		_ = file.Close()
-	}()
-
-	stat, _ := file.Stat()
-	if stat.IsDir() {
-		return nil, ErrNotFile
-	}
-
-	return file, nil
 }

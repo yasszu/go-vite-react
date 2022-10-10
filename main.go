@@ -16,7 +16,11 @@ func main() {
 		middleware.Recoverer,
 		middleware.RequestID,
 	)
-	r.NotFound(fileServer)
+
+	// File server
+	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		render(w, r)
+	})
 
 	port := 3000
 	fmt.Printf("\n⇨ http://localhost:%d/\n\n", port)
