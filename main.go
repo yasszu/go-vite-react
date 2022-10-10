@@ -17,17 +17,18 @@ func main() {
 		middleware.Recoverer,
 		middleware.RequestID,
 	)
-
-	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		serveFile(w, r)
-	})
+	r.NotFound(serveFile)
 
 	srv := &http.Server{
 		Handler:      r,
-		Addr:         "127.0.0.1:3000",
+		Addr:         "127.0.0.1:8000",
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 	}
 	log.Println("⇨ started on", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
+}
+
+func serveFile(w http.ResponseWriter, r *http.Request) {
+	renderFile(w, r, r.URL.Path)
 }

@@ -9,20 +9,20 @@ import (
 	"path/filepath"
 )
 
-func serveFile(w http.ResponseWriter, r *http.Request) {
-	file, err := openFile(r.URL.Path)
+func renderFile(w http.ResponseWriter, r *http.Request, fileName string) {
+	file, err := openFile(fileName)
 	if err != nil {
-		renderHtml(w, r)
+		renderHtml(w, r, fileName)
 		return
 	}
 
-	w.Header().Set("Content-Type", contentType(r.URL.Path))
+	w.Header().Set("Content-Type", contentType(fileName))
 	w.WriteHeader(http.StatusOK)
 	write(w, file)
 }
 
-func renderHtml(w http.ResponseWriter, r *http.Request) {
-	filePath := path.Join(r.URL.Path, "index.html")
+func renderHtml(w http.ResponseWriter, r *http.Request, dirName string) {
+	filePath := path.Join(dirName, "index.html")
 	file, err := openFile(filePath)
 	if err != nil {
 		log.Println(err)
@@ -46,9 +46,9 @@ func write(w http.ResponseWriter, file io.Reader) {
 }
 
 func contentType(filePath string) string {
-	ct := "application/octet-stream"
-	if mt := mime.TypeByExtension(filepath.Ext(filePath)); mt != "" {
-		ct = mt
+	mt := mime.TypeByExtension(filepath.Ext(filePath))
+	if mt == "" {
+		return "application/octet-stream"
 	}
-	return ct
+	return mt
 }

@@ -1,4 +1,4 @@
-# Go + Vite + React.js (Single Page Applications)
+# Single Page Applications (Go + Vite + React.js)
 
 ## Getting Started
 
@@ -17,5 +17,5 @@ make build
 Run server:
 
 ```sh
-make build
+make run
 ```
