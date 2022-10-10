@@ -1,4 +1,4 @@
-# Go + Vite + React.js
+# Go + Vite + React.js (Single Page Applications)
 
 ## Getting Started
 

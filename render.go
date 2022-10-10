@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 )
 
-func render(w http.ResponseWriter, r *http.Request) {
+func serveFile(w http.ResponseWriter, r *http.Request) {
 	file, err := openFile(r.URL.Path)
 	if err != nil {
 		renderHtml(w, r)

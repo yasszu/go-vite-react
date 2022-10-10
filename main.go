@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -17,12 +18,16 @@ func main() {
 		middleware.RequestID,
 	)
 
-	// File server
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
-		render(w, r)
+		serveFile(w, r)
 	})
 
-	port := 3000
-	fmt.Printf("\n⇨ http://localhost:%d/\n\n", port)
-	_ = http.ListenAndServe(fmt.Sprintf(":%d", port), r)
+	srv := &http.Server{
+		Handler:      r,
+		Addr:         "127.0.0.1:3000",
+		ReadTimeout:  15 * time.Second,
+		WriteTimeout: 15 * time.Second,
+	}
+	log.Println("⇨ started on", srv.Addr)
+	log.Fatal(srv.ListenAndServe())
 }
