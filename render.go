@@ -22,7 +22,7 @@ func renderFile(w http.ResponseWriter, r *http.Request, fileName string) {
 }
 
 func renderHtml(w http.ResponseWriter, r *http.Request, dirName string) {
-	filePath := path.Join(dirName, "index.html")
+	filePath := path.Join("pages", dirName, "index.html")
 	file, err := openFile(filePath)
 	if err != nil {
 		log.Println(err)
