@@ -9,10 +9,10 @@ import (
 	"path/filepath"
 )
 
-func renderFile(w http.ResponseWriter, r *http.Request, fileName string) {
-	file, err := openFile(fileName)
+func RenderFile(w http.ResponseWriter, r *http.Request, fileName string) {
+	file, err := OpenFile(fileName)
 	if err != nil {
-		renderHtml(w, r, fileName)
+		RenderHtml(w, r, fileName)
 		return
 	}
 
@@ -21,9 +21,9 @@ func renderFile(w http.ResponseWriter, r *http.Request, fileName string) {
 	write(w, file)
 }
 
-func renderHtml(w http.ResponseWriter, r *http.Request, dirName string) {
+func RenderHtml(w http.ResponseWriter, r *http.Request, dirName string) {
 	filePath := path.Join("pages", dirName, "index.html")
-	file, err := openFile(filePath)
+	file, err := OpenFile(filePath)
 	if err != nil {
 		log.Println(err)
 		http.NotFound(w, r)

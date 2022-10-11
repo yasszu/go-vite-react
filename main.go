@@ -11,19 +11,20 @@ import (
 
 func main() {
 	r := chi.NewRouter()
+	h := NewHandler()
+
 	r.Use(
 		middleware.Logger,
 		middleware.RealIP,
 		middleware.Recoverer,
 		middleware.RequestID,
 	)
-
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
-			r.Get("/health", health)
+			r.Get("/health", h.Health)
 		})
 	})
-	r.NotFound(serveFile)
+	r.NotFound(h.ServeFile)
 
 	srv := &http.Server{
 		Handler:      r,
@@ -33,13 +34,4 @@ func main() {
 	}
 	log.Println("⇨ started on", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
-}
-
-func health(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write([]byte("OK"))
-}
-
-func serveFile(w http.ResponseWriter, r *http.Request) {
-	renderFile(w, r, r.URL.Path)
 }

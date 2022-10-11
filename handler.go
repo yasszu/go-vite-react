@@ -1,0 +1,18 @@
+package main
+
+import "net/http"
+
+type Handler struct{}
+
+func NewHandler() *Handler {
+	return &Handler{}
+}
+
+func (h *Handler) Health(w http.ResponseWriter, _ *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write([]byte("OK"))
+}
+
+func (h *Handler) ServeFile(w http.ResponseWriter, r *http.Request) {
+	RenderFile(w, r, r.URL.Path)
+}

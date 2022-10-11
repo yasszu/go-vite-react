@@ -16,7 +16,7 @@ var dist embed.FS
 
 var ErrFileNotFound = errors.New("file not found")
 
-func openFile(fileName string) (fs.File, error) {
+func OpenFile(fileName string) (fs.File, error) {
 	file, err := dist.Open(path.Join(rootPath, fileName))
 	if err != nil {
 		return nil, err
