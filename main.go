@@ -10,15 +10,13 @@ import (
 )
 
 func main() {
-	r := chi.NewRouter()
 	h := NewHandler()
 
-	r.Use(
-		middleware.Logger,
-		middleware.RealIP,
-		middleware.Recoverer,
-		middleware.RequestID,
-	)
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Recoverer)
+	r.Use(middleware.RequestID)
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
 			r.Get("/health", h.Health)
@@ -32,6 +30,7 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 	}
+
 	log.Println("⇨ started on", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 }
