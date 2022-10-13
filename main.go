@@ -17,9 +17,10 @@ func main() {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.RequestID)
+	r.Get("/health", h.Health)
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
-			r.Get("/health", h.Health)
+			r.Get("/hello", h.Hello)
 		})
 	})
 	r.NotFound(h.ServeFile)
@@ -30,7 +31,6 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 	}
-
 	log.Println("⇨ started on", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 }
