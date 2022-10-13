@@ -12,7 +12,7 @@ import (
 func RenderFile(w http.ResponseWriter, r *http.Request, fileName string) {
 	file, err := OpenFile(fileName)
 	if err != nil {
-		RenderHtml(w, r, fileName)
+		RenderPage(w, r, fileName)
 		return
 	}
 
@@ -21,7 +21,7 @@ func RenderFile(w http.ResponseWriter, r *http.Request, fileName string) {
 	write(w, file)
 }
 
-func RenderHtml(w http.ResponseWriter, r *http.Request, dirName string) {
+func RenderPage(w http.ResponseWriter, r *http.Request, dirName string) {
 	filePath := path.Join("pages", dirName, "index.html")
 	file, err := OpenFile(filePath)
 	if err != nil {
