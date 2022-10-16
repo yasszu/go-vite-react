@@ -1,10 +1,20 @@
 .PHONEY: build project and run server
 
-install:
+npm-install:
 	@cd vite-project && npm install
 
-build:
+npm-build:
 	@cd vite-project && npm run build
 
-run :
-	@go run .
+npm-watch:
+	@cd vite-project && npm run watch
+
+init:
+	docker compose run --rm node bash -c "make npm-install"
+	docker compose run --rm node bash -c "make npm-build"
+
+run:
+	@docker-compose up
+
+stop:
+	@docker-compose stop

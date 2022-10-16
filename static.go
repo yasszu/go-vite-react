@@ -8,10 +8,10 @@ import (
 )
 
 const (
-	rootPath = "vite-project/dist"
+	rootPath = "dist"
 )
 
-//go:embed vite-project/dist/*
+//go:embed dist/*
 var dist embed.FS
 
 var ErrFileNotFound = errors.New("file not found")
@@ -25,7 +25,10 @@ func OpenFile(fileName string) (fs.File, error) {
 		_ = file.Close()
 	}()
 
-	stat, _ := file.Stat()
+	stat, err := file.Stat()
+	if err != nil {
+		return nil, err
+	}
 	if stat.IsDir() {
 		return nil, ErrFileNotFound
 	}

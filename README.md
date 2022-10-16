@@ -2,16 +2,10 @@
 
 ## Getting Started
 
-Setup npm:
+Init project:
 
 ```sh
-make install
-```
-
-Build vite-project:
-
-```sh
-make build
+make init
 ```
 
 Run server:
