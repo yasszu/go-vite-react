@@ -9,7 +9,7 @@ npm-build:
 npm-watch:
 	@cd vite-project && npm run watch
 
-up:
+run:
 	@docker-compose up -d
 
 stop:
