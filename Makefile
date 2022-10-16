@@ -1,10 +1,13 @@
 .PHONEY: build project and run server
 
-install:
+npm-install:
 	@cd vite-project && npm install
 
-build:
+npm-build:
 	@cd vite-project && npm run build
+
+npm-watch:
+	@cd vite-project && npm run watch
 
 run :
 	@go run .
