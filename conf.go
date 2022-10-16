@@ -5,12 +5,6 @@ import (
 	"os"
 )
 
-var conf *Conf
-
-func init() {
-	conf = NewConf()
-}
-
 type Conf struct {
 	Host string
 	Port string
