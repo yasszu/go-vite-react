@@ -9,6 +9,10 @@ npm-build:
 npm-watch:
 	@cd vite-project && npm run watch
 
+init:
+	docker compose run --rm node bash -c "make npm-install"
+	docker compose run --rm node bash -c "make npm-build"
+
 run:
 	@docker-compose up -d
 

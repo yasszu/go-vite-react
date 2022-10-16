@@ -2,6 +2,12 @@
 
 ## Getting Started
 
+Init project:
+
+```sh
+make init
+```
+
 Run server:
 
 ```sh
