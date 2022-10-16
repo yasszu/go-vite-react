@@ -25,7 +25,10 @@ func OpenFile(fileName string) (fs.File, error) {
 		_ = file.Close()
 	}()
 
-	stat, _ := file.Stat()
+	stat, err := file.Stat()
+	if err != nil {
+		return nil, err
+	}
 	if stat.IsDir() {
 		return nil, ErrFileNotFound
 	}
