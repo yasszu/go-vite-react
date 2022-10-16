@@ -8,10 +8,10 @@ import (
 )
 
 const (
-	rootPath = "vite-project/dist"
+	rootPath = "dist"
 )
 
-//go:embed vite-project/dist/*
+//go:embed dist/*
 var dist embed.FS
 
 var ErrFileNotFound = errors.New("file not found")
