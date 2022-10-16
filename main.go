@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	conf := NewConf()
 	h := NewHandler()
 
 	r := chi.NewRouter()

@@ -10,22 +10,24 @@ type Conf struct {
 	Port string
 }
 
+func NewConf() *Conf {
+	conf := &Conf{
+		Host: "127.0.0.1",
+		Port: "8000",
+	}
+	conf.load()
+	return conf
+}
+
 func (c *Conf) Addr() string {
 	return fmt.Sprintf("%s:%s", c.Host, c.Port)
 }
 
-var conf *Conf
-
-func init() {
-	conf = &Conf{
-		Host: "127.0.0.1",
-		Port: "8000",
-	}
-
+func (c *Conf) load() {
 	if host, ok := os.LookupEnv("HOST"); ok {
-		conf.Host = host
+		c.Host = host
 	}
 	if port, ok := os.LookupEnv("PORT"); ok {
-		conf.Port = port
+		c.Port = port
 	}
 }
