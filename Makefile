@@ -14,7 +14,7 @@ init:
 	docker compose run --rm node bash -c "make npm-build"
 
 run:
-	@docker-compose up -d
+	@docker-compose up
 
 stop:
 	@docker-compose stop
