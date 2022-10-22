@@ -5,13 +5,13 @@ import (
 	"os"
 )
 
-type Conf struct {
+type Config struct {
 	Host string
 	Port string
 }
 
-func NewConf() *Conf {
-	c := &Conf{
+func NewConfig() *Config {
+	c := &Config{
 		Host: "127.0.0.1",
 		Port: "8000",
 	}
@@ -25,6 +25,6 @@ func NewConf() *Conf {
 	return c
 }
 
-func (c *Conf) Addr() string {
+func (c *Config) Addr() string {
 	return fmt.Sprintf("%s:%s", c.Host, c.Port)
 }

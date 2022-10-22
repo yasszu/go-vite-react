@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	conf := NewConf()
+	conf := NewConfig()
 	h := NewHandler()
 	r := NewRouter(h)
 
