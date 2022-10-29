@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "watch": "tsc && vite build --watch",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "npm": "^8.19.2",
