@@ -7,12 +7,6 @@
 
 ## Getting Started
 
-Init project:
-
-```shell
-make init
-```
-
 Run server:
 
 ```shell

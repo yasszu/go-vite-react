@@ -12,12 +12,12 @@ npm-watch:
 npm-lint:
 	@cd vite-project && npm run lint
 
-init:
+build:
 	docker compose run --rm node bash -c "make npm-install"
 	docker compose run --rm node bash -c "make npm-build"
 
 run:
-	@make init
+	@make build
 	@docker-compose up
 
 stop:
