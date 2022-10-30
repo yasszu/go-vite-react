@@ -1,6 +1,6 @@
 # Single Page Application (Go + Vite + React.js)
 
-# Libraries
+## Libraries
 - https://github.com/go-chi/chi
 - https://github.com/vitejs/vite
 - https://github.com/facebook/react
