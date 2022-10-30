@@ -12,7 +12,12 @@ import (
 func RenderFile(w http.ResponseWriter, r *http.Request, fileName string) {
 	file, err := OpenFile(fileName)
 	if err != nil {
-		RenderPage(w, r, fileName)
+		if err == ErrFileNotFound {
+			RenderPage(w, r, fileName)
+			return
+		}
+		log.Println(err)
+		http.NotFound(w, r)
 		return
 	}
 
