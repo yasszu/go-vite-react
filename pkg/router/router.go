@@ -1,11 +1,12 @@
-package pkg
+package router
 
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/yasszu/go-vite-react/pkg/handler"
 )
 
-func NewRouter(h *Handler) *chi.Mux {
+func NewRouter(h *handler.Handler) *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Use(middleware.Logger)

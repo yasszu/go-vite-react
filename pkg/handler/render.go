@@ -1,4 +1,4 @@
-package pkg
+package handler
 
 import (
 	"io"
@@ -7,10 +7,12 @@ import (
 	"net/http"
 	"path"
 	"path/filepath"
+
+	"github.com/yasszu/go-vite-react/pkg/static"
 )
 
 func RenderFile(w http.ResponseWriter, r *http.Request, fileName string) {
-	file, err := OpenFile(fileName)
+	file, err := static.OpenFile(fileName)
 	if err != nil {
 		RenderPage(w, r, fileName)
 		return
@@ -23,7 +25,7 @@ func RenderFile(w http.ResponseWriter, r *http.Request, fileName string) {
 
 func RenderPage(w http.ResponseWriter, r *http.Request, dirName string) {
 	filePath := path.Join("pages", dirName, "index.html")
-	file, err := OpenFile(filePath)
+	file, err := static.OpenFile(filePath)
 	if err != nil {
 		log.Println(err)
 		http.NotFound(w, r)
