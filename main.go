@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	conf := pkg.NewConf()
+	conf := pkg.NewConfig()
 	h := pkg.NewHandler()
 	r := pkg.NewRouter(h)
 

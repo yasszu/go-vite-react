@@ -129,3 +129,4 @@ go.work
 ## IDE
 .idea/
 /tmp/
+/.vscode/
