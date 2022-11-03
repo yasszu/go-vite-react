@@ -17,6 +17,8 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 	}
+
+	// TODO: implement Graceful Shutdown
 	log.Println("⇨ started on", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 }
