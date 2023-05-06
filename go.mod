@@ -1,5 +1,5 @@
 module github.com/yasszu/go-vite-react
 
-go 1.18
+go 1.20
 
 require github.com/go-chi/chi/v5 v5.0.7
