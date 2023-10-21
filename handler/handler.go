@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/yasszu/go-vite-react/render"
 )
 
@@ -10,10 +11,19 @@ type Handler struct {
 	r render.Render
 }
 
-func NewHandler() *Handler {
-	return &Handler{
+func NewHandler(r *chi.Mux) *Handler {
+	h := &Handler{
 		r: render.NewRender(),
 	}
+
+	r.Get("/health", h.Health)
+	r.Route("/api", func(r chi.Router) {
+		r.Route("/v1", func(r chi.Router) {
+			r.Get("/hello", h.Hello)
+		})
+	})
+	r.NotFound(h.ServeFile)
+	return h
 }
 
 func (h *Handler) Health(w http.ResponseWriter, _ *http.Request) {
