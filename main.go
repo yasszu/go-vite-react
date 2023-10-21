@@ -4,11 +4,13 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/yasszu/go-vite-react/handler"
 )
 
 func main() {
 	conf := NewConfig()
-	h := NewHandler()
+	h := handler.NewHandler()
 	r := NewRouter(h)
 
 	srv := &http.Server{
