@@ -2,12 +2,18 @@ package main
 
 import (
 	"net/http"
+
+	"github.com/yasszu/go-vite-react/render"
 )
 
-type Handler struct{}
+type Handler struct {
+	r render.Render
+}
 
 func NewHandler() *Handler {
-	return &Handler{}
+	return &Handler{
+		r: render.NewRender(),
+	}
 }
 
 func (h *Handler) Health(w http.ResponseWriter, _ *http.Request) {
@@ -21,5 +27,5 @@ func (h *Handler) Hello(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (h *Handler) ServeFile(w http.ResponseWriter, r *http.Request) {
-	RenderFile(w, r, r.URL.Path)
+	h.r.RenderFile(w, r, r.URL.Path)
 }
