@@ -7,11 +7,12 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/yasszu/go-vite-react/config"
 	"github.com/yasszu/go-vite-react/handler"
 )
 
 func main() {
-	conf := NewConfig()
+	conf := config.NewConfig()
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
