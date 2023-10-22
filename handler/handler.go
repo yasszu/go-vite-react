@@ -11,11 +11,10 @@ type Handler struct {
 	r render.Render
 }
 
-func NewHandler(r *chi.Mux) *Handler {
+func NewHandler(r *chi.Mux) {
 	h := &Handler{
 		r: render.NewRender(),
 	}
-
 	r.Get("/health", h.Health)
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
@@ -23,7 +22,6 @@ func NewHandler(r *chi.Mux) *Handler {
 		})
 	})
 	r.NotFound(h.ServeFile)
-	return h
 }
 
 func (h *Handler) Health(w http.ResponseWriter, _ *http.Request) {
