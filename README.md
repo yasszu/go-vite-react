@@ -14,7 +14,13 @@ Run linter:
 make lint
 ```
 
+Run prettier:
+
+```shell
+make pretiier
+```
+
 ## Libraries
-- https://github.com/go-chi/chi
-- https://github.com/vitejs/vite
-- https://github.com/facebook/react
+- [chi](https://github.com/go-chi/chi)
+- [vite](https://github.com/vitejs/vite)
+- [react](https://github.com/facebook/react)
