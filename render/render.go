@@ -1,45 +1,35 @@
 package render
 
 import (
-	"embed"
 	"errors"
 	"io"
-	"io/fs"
 	"log"
 	"mime"
 	"net/http"
 	"path"
 	"path/filepath"
-)
 
-const (
-	rootPath = "dist"
-)
-
-var (
-	//go:embed dist/*
-	dist embed.FS
-
-	ErrFileNotFound = errors.New("file not found")
+	"github.com/yasszu/go-vite-react/web"
 )
 
 type Render struct {
-	dist embed.FS
+	dist web.Dist
 }
 
 func NewRender() Render {
 	return Render{
-		dist: dist,
+		dist: web.NewDist(),
 	}
 }
 
 func (r *Render) RenderFile(w http.ResponseWriter, req *http.Request, fileName string) {
-	file, err := openFile(fileName)
+	file, err := r.dist.OpenFile(fileName)
 	if err != nil {
-		if errors.Is(err, ErrFileNotFound) {
-			renderPage(w, req, fileName)
+		if errors.Is(err, web.ErrFileNotFound) {
+			r.renderPage(w, req, fileName)
 			return
 		}
+
 		log.Println(err)
 		http.NotFound(w, req)
 		return
@@ -50,9 +40,9 @@ func (r *Render) RenderFile(w http.ResponseWriter, req *http.Request, fileName s
 	write(w, file)
 }
 
-func renderPage(w http.ResponseWriter, req *http.Request, dirName string) {
+func (r *Render) renderPage(w http.ResponseWriter, req *http.Request, dirName string) {
 	filePath := path.Join(dirName, "index.html")
-	file, err := openFile(filePath)
+	file, err := r.dist.OpenFile(filePath)
 	if err != nil {
 		log.Println(err)
 		http.NotFound(w, req)
@@ -62,26 +52,6 @@ func renderPage(w http.ResponseWriter, req *http.Request, dirName string) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	write(w, file)
-}
-
-func openFile(fileName string) (fs.File, error) {
-	file, err := dist.Open(path.Join(rootPath, fileName))
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		_ = file.Close()
-	}()
-
-	stat, err := file.Stat()
-	if err != nil {
-		return nil, err
-	}
-	if stat.IsDir() {
-		return nil, ErrFileNotFound
-	}
-
-	return file, nil
 }
 
 func write(w http.ResponseWriter, file io.Reader) {
