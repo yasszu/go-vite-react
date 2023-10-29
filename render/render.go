@@ -44,7 +44,12 @@ func (r *Render) renderPage(w http.ResponseWriter, req *http.Request, filePath s
 }
 
 func (r *Render) renderFile(w http.ResponseWriter, file fs.File, fileName string) {
-	w.Header().Set("Content-Type", contentType(fileName))
+	contentType := mime.TypeByExtension(filepath.Ext(fileName))
+	if contentType == "" {
+		contentType = "application/octet-stream"
+	}
+
+	w.Header().Set("Content-Type", contentType)
 	w.WriteHeader(http.StatusOK)
 	write(w, file)
 }
@@ -57,12 +62,4 @@ func write(w http.ResponseWriter, file io.Reader) {
 	if _, err := w.Write(bytes); err != nil {
 		log.Println(err)
 	}
-}
-
-func contentType(filePath string) string {
-	mt := mime.TypeByExtension(filepath.Ext(filePath))
-	if mt == "" {
-		return "application/octet-stream"
-	}
-	return mt
 }
