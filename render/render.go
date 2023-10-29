@@ -1,7 +1,6 @@
 package render
 
 import (
-	"errors"
 	"io"
 	"log"
 	"mime"
@@ -25,13 +24,7 @@ func NewRender() Render {
 func (r *Render) RenderFile(w http.ResponseWriter, req *http.Request, fileName string) {
 	file, err := r.dist.OpenFile(fileName)
 	if err != nil {
-		if errors.Is(err, web.ErrFileNotFound) {
-			r.renderPage(w, req, fileName)
-			return
-		}
-
-		log.Println(err)
-		http.NotFound(w, req)
+		r.renderIndex(w, req)
 		return
 	}
 
@@ -40,8 +33,8 @@ func (r *Render) RenderFile(w http.ResponseWriter, req *http.Request, fileName s
 	write(w, file)
 }
 
-func (r *Render) renderPage(w http.ResponseWriter, req *http.Request, dirName string) {
-	filePath := path.Join(dirName, "index.html")
+func (r *Render) renderIndex(w http.ResponseWriter, req *http.Request) {
+	filePath := path.Join("/", "index.html")
 	file, err := r.dist.OpenFile(filePath)
 	if err != nil {
 		log.Println(err)

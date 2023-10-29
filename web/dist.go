@@ -15,7 +15,8 @@ var (
 	//go:embed vite-project/dist/*
 	dist embed.FS
 
-	ErrFileNotFound = errors.New("file not found")
+	ErrFileNotFound = errors.New("file does not exist")
+	ErrDirPath      = errors.New("path is a dir")
 )
 
 type Dist struct {
@@ -29,7 +30,7 @@ func NewDist() Dist {
 func (d *Dist) OpenFile(fileName string) (fs.File, error) {
 	file, err := dist.Open(path.Join(rootPath, fileName))
 	if err != nil {
-		return nil, err
+		return nil, ErrFileNotFound
 	}
 	defer func() {
 		_ = file.Close()
@@ -40,7 +41,7 @@ func (d *Dist) OpenFile(fileName string) (fs.File, error) {
 		return nil, err
 	}
 	if stat.IsDir() {
-		return nil, ErrFileNotFound
+		return nil, ErrDirPath
 	}
 
 	return file, nil
