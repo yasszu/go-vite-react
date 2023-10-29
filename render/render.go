@@ -2,10 +2,10 @@ package render
 
 import (
 	"io"
+	"io/fs"
 	"log"
 	"mime"
 	"net/http"
-	"path"
 	"path/filepath"
 
 	"github.com/yasszu/go-vite-react/web"
@@ -21,20 +21,16 @@ func NewRender() Render {
 	}
 }
 
-func (r *Render) RenderFile(w http.ResponseWriter, req *http.Request, fileName string) {
+func (r *Render) TryRenderFile(w http.ResponseWriter, req *http.Request, fileName string) {
 	file, err := r.dist.OpenFile(fileName)
 	if err != nil {
-		r.renderIndex(w, req)
+		r.renderPage(w, req, "/index.html")
 		return
 	}
-
-	w.Header().Set("Content-Type", contentType(fileName))
-	w.WriteHeader(http.StatusOK)
-	write(w, file)
+	r.renderFile(w, file, fileName)
 }
 
-func (r *Render) renderIndex(w http.ResponseWriter, req *http.Request) {
-	filePath := path.Join("/", "index.html")
+func (r *Render) renderPage(w http.ResponseWriter, req *http.Request, filePath string) {
 	file, err := r.dist.OpenFile(filePath)
 	if err != nil {
 		log.Println(err)
@@ -43,6 +39,12 @@ func (r *Render) renderIndex(w http.ResponseWriter, req *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	write(w, file)
+}
+
+func (r *Render) renderFile(w http.ResponseWriter, file fs.File, fileName string) {
+	w.Header().Set("Content-Type", contentType(fileName))
 	w.WriteHeader(http.StatusOK)
 	write(w, file)
 }

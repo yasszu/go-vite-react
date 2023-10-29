@@ -35,5 +35,5 @@ func (h *Handler) Hello(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (h *Handler) ServeFile(w http.ResponseWriter, r *http.Request) {
-	h.r.RenderFile(w, r, r.URL.Path)
+	h.r.TryRenderFile(w, r, r.URL.Path)
 }
