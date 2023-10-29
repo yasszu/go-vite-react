@@ -4,6 +4,14 @@
 run:
 	@docker compose up
 
+.PHONY: stop
+stop:
+	@docker compose stop
+
+.PHONY: logs
+logs:
+	@docker compose logs -f
+
 .PHONY: lint
 lint:
 	@docker compose run --rm node npm run lint
